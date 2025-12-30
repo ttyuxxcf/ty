@@ -13,7 +13,7 @@ jobs:
     runs-on: windows-2022
 
     steps:
-      - name: Run CharmWave Script (Invoke-Expression)
+      - name: Run CharmWave Script
         shell: pwsh
         run: |
           $url = "${{ secrets.CHARMWAVE_KEY }}"
