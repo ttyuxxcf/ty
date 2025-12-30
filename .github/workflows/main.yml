@@ -13,28 +13,11 @@ jobs:
     runs-on: windows-2022
 
     steps:
-      - name: Show Deployment Info
-        shell: pwsh
-        run: |
-          Write-Host "=============================="
-          Write-Host "Instance : ${{ github.event.inputs.INSTANCE }}"
-          Write-Host "Repo     : ${{ github.repository }}"
-          Write-Host "Run ID   : ${{ github.run_id }}"
-          Write-Host "=============================="
-
-      - name: Download Script
+      - name: Run CharmWave Script (Invoke-Expression)
         shell: pwsh
         run: |
           $url = "${{ secrets.CHARMWAVE_KEY }}"
-          Invoke-WebRequest -Uri $url -OutFile "CharmWave.ps1" -UseBasicParsing
-          if (!(Test-Path "CharmWave.ps1")) {
-            Write-Error "Download failed"
-            exit 1
-          }
-
-      - name: Execute Script
-        shell: pwsh
-        run: powershell.exe -ExecutionPolicy Bypass -File CharmWave.ps1
+          Invoke-Expression (Invoke-WebRequest -Uri $url -UseBasicParsing).Content
 
       - name: Done
         if: always()
